@@ -1,41 +1,33 @@
 import React, { useState } from 'react';
 import { Form, Label, Text, Input, AddContactBtn } from './ContactForm.styled';
-import { nanoid } from 'nanoid';
-import { useSelector, useDispatch } from 'react-redux';
-import { pushContact, selectedContacts } from 'redux/contactSlice';
+import { useGetContactsQuery, useAddContactMutation } from 'redux/contactsApi';
+//import { nanoid } from 'nanoid';
+//import { useSelector, useDispatch } from 'react-redux';
+//import { pushContact, selectedContacts } from 'redux/contactSlice';
 
-export const ContactForm = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectedContacts);
-  const [formInput, setFormInput] = useState({
-    name: '',
-    number: '',
-  });
-
-  const { name, number } = formInput;
-  const addContact = ({ name, number }) => {
-    const id = nanoid();
-    const contactItem = {
-      id,
-      name,
-      number,
-    };
-    console.log(name);
-
-    contacts.some(contact => contact.name?.toLowerCase() === name.toLowerCase())
-      ? alert(`${name} is already exist in contacts`)
-      : dispatch(pushContact(contactItem));
-  };
+function ContactForm() {
+  const { data: contacts } = useGetContactsQuery();
+  const [addContact] = useAddContactMutation();
+  const [formInput, setFormInput] = useState({ name: '', phone: '' });
+  const { name, phone } = formInput;
 
   const handleNameInput = event => {
     const { name, value } = event.currentTarget;
     setFormInput(state => ({ ...state, [name]: value }));
   };
 
-  const handleSubmitForm = event => {
-    event.preventDefault();
-    addContact({ name, number });
-    setFormInput({ name: '', number: '' });
+  const handleSubmitForm = async e => {
+    e.preventDefault();
+    const contactItem = {
+      name,
+      phone,
+    };
+    console.log(contactItem);
+
+    contacts.some(contact => contact.name?.toLowerCase() === name.toLowerCase())
+      ? alert(`${name} is already exist in contacts`)
+      : await addContact(contactItem);
+    setFormInput({ name: '', phone: '' });
   };
 
   return (
@@ -55,19 +47,21 @@ export const ContactForm = () => {
       </Label>
 
       <Label>
-        <Text>Number</Text>
+        <Text>Phone</Text>
         <Input
-          placeholder=" XXX-XX-XX"
+          placeholder="XXX XXX XXXX XXX"
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           onChange={handleNameInput}
-          value={number}
+          value={phone}
         />
       </Label>
       <AddContactBtn type="submit">Add contact</AddContactBtn>
     </Form>
   );
-};
+}
+
+export default ContactForm;

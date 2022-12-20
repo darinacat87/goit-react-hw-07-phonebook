@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {
   ContactPhonebooks,
   Name,
-  Number,
+  Phone,
   DeleteBtn,
 } from './ContactPhonebook.styled';
 
-export const ContactPhonebook = ({ name, number, id, onDeleteBtn }) => {
+export const ContactPhonebook = ({ name, phone, id, onDeleteBtn }) => {
   return (
     <ContactPhonebooks>
       <Name>{name}</Name>
-      <Number>{number}</Number>
+      <Phone>{phone}</Phone>
       <DeleteBtn type="button" id={id} onClick={onDeleteBtn}>
         Delete
       </DeleteBtn>
@@ -18,9 +18,9 @@ export const ContactPhonebook = ({ name, number, id, onDeleteBtn }) => {
   );
 };
 
-ContactPhonebook.propTypes = {
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  onDeleteBtn: PropTypes.func.isRequired,
-};
+//ContactPhonebook.propTypes = {
+//name: PropTypes.string.isRequired,
+// number: PropTypes.string.isRequired,
+//id: PropTypes.string.isRequired,
+//onDeleteBtn: PropTypes.func.isRequired,
+//};

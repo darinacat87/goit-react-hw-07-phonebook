@@ -10,14 +10,16 @@ export const ContactPhonebooks = styled.li`
   }
 `;
 export const Name = styled.span`
-  font-weight: 700;
-  margin-right: 10px;
+  font-weight: 500;
+  margin: auto;
   color: grey;
 `;
-export const Number = styled.span`
-  font-weight: 700;
+export const Phone = styled.span`
+  font-weight: 500;
+  margin: auto;
   color: grey;
 `;
+
 export const DeleteBtn = styled.button`
   display: inline-flex;
   align-items: center;
